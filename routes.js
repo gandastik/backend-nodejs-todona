@@ -1,15 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const controllers = require('./controllers');
+const controllers = require("./controllers");
+const { TaskModel } = require("./models");
 
 router.get("/tasks", (req, res) => controllers.getTasksController(req, res));
+
+router.get("/tasks/:id", async (req, res) => {
+  const result = await TaskModel.findOne({ _id: req.params.id });
+  res.send(result);
+});
 
 router.post("/task", (req, res) => controllers.createTaksController(req, res));
 
 router.put("/task", (req, res) => controllers.updateTaskController(req, res));
 
-router.delete("/task/:id", (req, res) => controllers.deleteTaskController(req, res));
-
+router.delete("/task/:id", (req, res) =>
+  controllers.deleteTaskController(req, res)
+);
 
 // router.get('/students', (req, res) => {
 //    res.json(students);
